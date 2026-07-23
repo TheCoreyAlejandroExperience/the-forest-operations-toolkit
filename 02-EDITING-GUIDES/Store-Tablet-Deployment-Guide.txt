@@ -1,0 +1,111 @@
+STORE TABLET DEPLOYMENT GUIDE
+How to Put the Tools on Every Store Tablet in Every Location
+
+=== WHAT YOU NEED ===
+
+You need the two HTML files from the folder named Zero-Three-TOOLS-READY-TO-DEPLOY.
+You need a way to transfer files to tablets. This guide covers three methods.
+You need one tablet per store. The tablet can be an iPad, Android tablet, or Windows tablet.
+
+=== METHOD ONE: EMAIL (EASIEST) ===
+
+Step One. Open your email program.
+Step Two. Create a new email.
+Step Three. In the To field, enter the email address of the store manager.
+Step Four. In the Subject field, type: New Training Tools for Store Tablet — No Setup Required
+Step Five. In the body of the email, type:
+
+"Hello [Store Manager Name],
+
+Attached are two new training tools for your store tablet. These are single files that open in any web browser. No app installation. No internet required after download.
+
+Tool One: Medical Patient Concierge. Use this when helping medical patients or new customers. It asks six questions and tells you exactly what product to recommend and what to say.
+
+Tool Two: SOP and Training Engine. Use this before each shift huddle. Pick a scenario, read the training script, and ask the quiz questions.
+
+To install: Download the attached files to your store tablet. Double-click each file to open it. Bookmark the file in your browser for quick access.
+
+If you have questions, contact [YOUR NAME] at [YOUR EMAIL]."
+
+Step Six. Attach both HTML files.
+Step Seven. Send the email.
+Step Eight. Repeat for every store manager.
+
+=== METHOD TWO: SHARED COMPANY DRIVE ===
+
+Step One. Upload both HTML files to your company shared drive. Examples: Google Drive, OneDrive, Dropbox, Box.
+Step Two. Set the sharing permissions to "Anyone with the link can view." Do not require a login.
+Step Three. Copy the shareable link.
+Step Four. Send an email to all store managers with the link and the same instructions from Method One.
+Step Five. Store managers click the link, download the files to their tablets, and double-click to open.
+
+=== METHOD THREE: USB DRIVE ===
+
+Step One. Copy both HTML files to a USB drive.
+Step Two. Hand the USB drive to each store manager or mail it to each store.
+Step Three. The store manager inserts the USB drive into the store computer or tablet.
+Step Four. The store manager copies the two HTML files from the USB drive to the tablet's internal storage.
+Step Five. The store manager double-click each file to verify it opens.
+Step Six. The store manager returns the USB drive to you or passes it to the next store.
+
+=== TABLET-SPECIFIC INSTRUCTIONS ===
+
+For iPad:
+Step One. Open the email or shared drive link on the iPad.
+Step Two. Tap the HTML file. It will open in Safari.
+Step Three. Tap the Share button at the bottom of Safari.
+Step Four. Scroll down and tap "Add to Home Screen."
+Step Five. Name it "Medical Concierge" or "SOP Engine."
+Step Six. Tap Add. An icon will appear on the iPad home screen.
+Step Seven. Repeat for the second file.
+
+For Android Tablet:
+Step One. Open the email or shared drive link on the tablet.
+Step Two. Download the HTML file.
+Step Three. Open Chrome. Tap the three dots in the top right.
+Step Four. Tap "Add to Home screen."
+Step Five. Name it "Medical Concierge" or "SOP Engine."
+Step Six. Tap Add. An icon will appear on the home screen.
+Step Seven. Repeat for the second file.
+
+For Windows Tablet:
+Step One. Download the HTML files to the tablet.
+Step Two. Right-click each file.
+Step Three. Select "Pin to Start" or "Create shortcut."
+Step Four. The shortcut will appear on the Start menu or desktop.
+
+=== TESTING AFTER DEPLOYMENT ===
+
+After a store manager installs the tools, ask them to complete this three-point verification:
+
+Point One. Open the Medical Patient Concierge. Select Medical Only, Sleep, Edibles, First-Time, Premium. Verify that a recommendation appears with a product name, staff talking points, and dosage guidance.
+
+Point Two. Open the SOP Training Engine. Click "Customer Disputes Overcharge." Verify that four sections appear: SOP, Compliance Check, Training Script, and Quiz.
+
+Point Three. Tap the Print button on either tool. Verify that the print dialog appears.
+
+If all three points pass, deployment is successful at that store.
+
+=== UPDATING THE TOOLS LATER ===
+
+When you release a new version:
+Step One. Edit the tool and save it with a new version number in the filename. For example: Medical-Patient-Concierge-v2.html.
+Step Two. Send the new file to all store managers with this message:
+
+"Please replace the old Medical Patient Concierge file with this new version. Delete the old file. The new file has updated products and scripts."
+
+Step Three. Ask store managers to reply when the update is complete.
+
+=== TROUBLESHOOTING ===
+
+Problem: The file opens as text instead of a web page.
+Solution: The store manager needs to open the file with a web browser, not a text editor. On the tablet, tap and hold the file, select Open With, and choose Chrome, Safari, or Edge.
+
+Problem: The file will not open at all.
+Solution: The file may have been corrupted during transfer. Re-send the file. Ask the store manager to delete the old file and download the new one.
+
+Problem: The tablet does not have a web browser.
+Solution: Every tablet has a web browser. On iPad it is Safari. On Android it is Chrome. On Windows it is Edge. If the browser was deleted, reinstall it from the app store.
+
+Problem: The store manager cannot find the file after downloading.
+Solution: On most tablets, downloaded files go to a folder called Downloads. Open the file manager app. Navigate to Downloads. The file will be there.

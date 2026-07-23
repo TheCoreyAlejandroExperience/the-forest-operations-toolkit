@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forest Operations Toolkit — Learning &amp; Development</title>
+<style>
+  :root {
+    --forest-green: #1a472a;
+    --forest-light: #2d6a3f;
+    --forest-accent: #4a9b5e;
+    --earth-brown: #5c4033;
+    --warm-cream: #faf8f3;
+    --soft-gold: #c9a227;
+    --charcoal: #1e1e1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--warm-cream);
+    color: var(--charcoal);
+    line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+  .hero h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
+  .hero h2 { font-size: 1.1rem; font-weight: 400; opacity: 0.9; margin-top: 8px; }
+  .hero .meta {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
+  .alert-box {
+    background: linear-gradient(135deg, #fff8e1 0%, white 100%);
+    border: 2px solid var(--soft-gold);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .alert-box h3 { color: var(--earth-brown); font-size: 1.2rem; margin-bottom: 8px; }
+  .alert-box p { color: #555; font-size: 0.95rem; }
+  .alert-box .btn-row { margin-top: 16px; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--forest-green);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  @media (min-width: 640px) {
+    .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    border-color: var(--forest-accent);
+  }
+  .card .icon { font-size: 2rem; margin-bottom: 12px; }
+  .card h3 { font-size: 1.1rem; color: var(--forest-green); margin-bottom: 6px; }
+  .card p { font-size: 0.9rem; color: #555; margin-bottom: 14px; }
+  .card .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+  }
+  .btn-secondary {
+    background: white;
+    color: var(--forest-green);
+    border: 2px solid var(--forest-green);
+  }
+  .btn-pdf { background: var(--earth-brown); color: white; }
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .tag-live { background: #e8f5e9; color: var(--forest-green); }
+  .tag-pdf { background: #fff3e0; color: var(--earth-brown); }
+  .tag-guide { background: #e3f2fd; color: #1565c0; }
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ddd, transparent);
+    margin: 32px 0;
+  }
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: #888;
+    font-size: 0.85rem;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  @media (min-width: 640px) {
+    .two-col { grid-template-columns: 1fr 1fr; }
+  }
+  .info-box {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  .info-box h4 { color: var(--forest-green); margin-bottom: 8px; font-size: 1rem; }
+  .info-box ol, .info-box ul { padding-left: 20px; margin-top: 8px; }
+  .info-box li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>The Forest Operations Toolkit</h1>
+  <h2>Learning &amp; Development — Standard Wellness Holdings, LLC</h2>
+  <div class="meta">Production-Ready &middot; No IT Required &middot; Editable by Non-Technical Staff</div>
+</div>
+
+<div class="container">
+
+  <div class="alert-box">
+    <h3>&#9200; New to This Toolkit? Start Here.</h3>
+    <p>Open the 10-Minute Quick Start guide to deploy both tools to every store tablet today.</p>
+    <div class="btn-row">
+      <a href="01-QUICK-START/10-Minute-Quick-Start.html" class="btn btn-primary" target="_blank">&#128187; Open Quick Start</a>
+    </div>
+  </div>
+
+  <div class="section-title">&#128295; Ready-to-Deploy Tools</div>
+  <div class="section-subtitle">Copy these files to store tablets. Double-click to open. No installation. No internet required.</div>
+
+  <div class="grid cols-2">
+    <a href="03-TOOLS-READY-TO-DEPLOY/01-Medical-Patient-Concierge.html" class="card" target="_blank">
+      <div class="icon">&#127973;</div>
+      <h3>Medical Patient Concierge</h3>
+      <p>6-step guided consultation tool. Matches patients to products, generates staff scripts, dosage guidance, and printable recommendation cards.</p>
+      <div class="actions">
+        <span class="btn btn-primary">&#128187; Open Tool</span>
+        <span class="tag tag-live">Works Offline</span>
+      </div>
+    </a>
+
+    <a href="03-TOOLS-READY-TO-DEPLOY/02-SOP-Training-Engine.html" class="card" target="_blank">
+      <div class="icon">&#128221;</div>
+      <h3>SOP &amp; Training Engine</h3>
+      <p>10 pre-built dispensary scenarios. Each generates: SOP, Ohio DCC compliance check, 2-minute training script, and 3 quiz questions.</p>
+      <div class="actions">
+        <span class="btn btn-primary">&#128187; Open Tool</span>
+        <span class="tag tag-live">Works Offline</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">&#128220; Editing Guides</div>
+  <div class="section-subtitle">No programming required. Follow numbered steps to customize products, scenarios, and scripts.</div>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="icon">&#9997;&#65039;</div>
+      <h3>Edit the Medical Concierge</h3>
+      <p>Change product names, brands, THC/CBD percentages, terpenes, effects, staff scripts, and price tiers. Add or remove products.</p>
+      <div class="actions">
+        <a href="02-EDITING-GUIDES/How-to-Edit-the-Medical-Concierge.txt" class="btn btn-secondary" target="_blank">&#128220; Open Guide</a>
+        <span class="tag tag-guide">Text File</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#9997;&#65039;</div>
+      <h3>Edit the SOP Engine</h3>
+      <p>Change scenario titles, SOP steps, compliance checks, training scripts, and quiz questions. Add or remove scenarios.</p>
+      <div class="actions">
+        <a href="02-EDITING-GUIDES/How-to-Edit-the-SOP-Engine.txt" class="btn btn-secondary" target="_blank">&#128220; Open Guide</a>
+        <span class="tag tag-guide">Text File</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#128241;</div>
+      <h3>Deploy to Store Tablets</h3>
+      <p>Step-by-step instructions for iPad, Android, and Windows tablets. Email, USB, and shared drive methods included.</p>
+      <div class="actions">
+        <a href="02-EDITING-GUIDES/Store-Tablet-Deployment-Guide.txt" class="btn btn-secondary" target="_blank">&#128220; Open Guide</a>
+        <span class="tag tag-guide">Text File</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#128218;</div>
+      <h3>Source Files</h3>
+      <p>Advanced users: the SOP Prompt Framework for generating custom training content with ChatGPT, Claude, or Kimi.</p>
+      <div class="actions">
+        <a href="06-SOURCE-FILES/SOP-Prompt-Framework.md" class="btn btn-secondary" target="_blank">&#128220; Open Framework</a>
+        <span class="tag tag-guide">Markdown</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">&#128196; Printable Documents</div>
+  <div class="section-subtitle">Pre-formatted PDFs for printing, posting, and distribution.</div>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="icon">&#9877;&#65039;</div>
+      <h3>Medical Patient Playbook</h3>
+      <p>4-page staff guide: welcome scripts, registry verification, product matching by condition, retention touchpoints, red flags.</p>
+      <div class="actions">
+        <a href="04-PRINTABLES/Medical-Patient-Playbook.pdf" class="btn btn-pdf" target="_blank">&#128196; PDF</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#128197;</div>
+      <h3>30-60-90 Day Plan</h3>
+      <p>Phased execution plan with specific actions, metrics, and go/no-go criteria for Lead Dispensary Associates.</p>
+      <div class="actions">
+        <a href="04-PRINTABLES/30-60-90-Day-Plan.pdf" class="btn btn-pdf" target="_blank">&#128196; PDF</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#128205;</div>
+      <h3>Cleveland Heights Community Map</h3>
+      <p>10 local business partnerships with concrete cross-promotion ideas for community integration.</p>
+      <div class="actions">
+        <a href="04-PRINTABLES/Cleveland-Heights-Community-Map.pdf" class="btn btn-pdf" target="_blank">&#128196; PDF</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">&#128483;&#65039;</div>
+      <h3>Interview Presentation Guide</h3>
+      <p>Word-for-word scripts, demo narration, prepared answers, and follow-up templates for hiring managers.</p>
+      <div class="actions">
+        <a href="04-PRINTABLES/Interview-Presentation-Guide.pdf" class="btn btn-pdf" target="_blank">&#128196; PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">&#128218; Training Modules</div>
+  <div class="section-subtitle">Pre-built weekly schedules for store managers and lead associates.</div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="icon">&#128197;</div>
+      <h3>Weekly Training Rollout Schedule</h3>
+      <p>Four weeks of themed daily huddle activities: Week 1 (Compliance), Week 2 (Customer Experience), Week 3 (Product Knowledge), Week 4 (Operational Efficiency). Includes role-plays, quizzes, mystery shoppers, and monthly reporting requirements.</p>
+      <div class="actions">
+        <a href="05-TRAINING-MODULES/Weekly-Training-Rollout-Schedule.txt" class="btn btn-secondary" target="_blank">&#128220; Open Schedule</a>
+        <span class="tag tag-guide">Text File</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="two-col">
+    <div class="info-box">
+      <h4>&#128161; How to Deploy</h4>
+      <ol>
+        <li>Download this entire folder.</li>
+        <li>Copy the two HTML files from <strong>03-TOOLS-READY-TO-DEPLOY</strong> to a USB drive or email.</li>
+        <li>Transfer to every store tablet.</li>
+        <li>Double-click each file to verify it opens.</li>
+        <li>Train store managers using the <strong>10-Minute Quick Start</strong>.</li>
+        <li>Print the <strong>Medical Patient Playbook</strong> for every register.</li>
+      </ol>
+    </div>
+    <div class="info-box">
+      <h4>&#9997;&#65039; How to Edit</h4>
+      <ol>
+        <li>Make a backup copy of any file before editing.</li>
+        <li>Open the editing guide for the tool you want to change.</li>
+        <li>Follow every step in order. Do not skip steps.</li>
+        <li>Use Notepad (Windows) or TextEdit in plain text mode (Mac).</li>
+        <li>Do not use Microsoft Word.</li>
+        <li>Save. Test in a browser. Deploy the updated file.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="alert-box" style="margin-top:32px;">
+    <h3>&#127760; This Toolkit Is Live Online</h3>
+    <p>Share this URL with your team — all tools and PDFs are accessible immediately in any browser.</p>
+    <div class="btn-row">
+      <a href="https://thecoreyalejandroexperience.github.io/the-forest-operations-toolkit/" class="btn btn-primary" target="_blank" style="font-size:1rem;padding:12px 24px;">
+        &#127760; thecoreyalejandroexperience.github.io/the-forest-operations-toolkit
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>The Forest Operations Toolkit &middot; Standard Wellness Holdings, LLC</p>
+  <p style="margin-top:6px; font-size:0.8rem;">Built for immediate production deployment. No IT required. Editable by non-technical staff.</p>
+</div>
+
+</body>
+</html>

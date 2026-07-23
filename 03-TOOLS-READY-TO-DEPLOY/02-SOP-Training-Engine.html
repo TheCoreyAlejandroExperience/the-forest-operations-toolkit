@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forest — SOP &amp; Training Engine | Cleveland Heights</title>
+<style>
+  :root {
+    --forest-green: #1a472a;
+    --forest-light: #2d6a3f;
+    --forest-accent: #4a9b5e;
+    --earth-brown: #5c4033;
+    --warm-cream: #faf8f3;
+    --soft-gold: #c9a227;
+    --charcoal: #1e1e1e;
+    --danger: #c0392b;
+    --warning: #f39c12;
+    --info: #2980b9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--warm-cream) 0%, #f0ece3 100%);
+    color: var(--charcoal);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+  header {
+    text-align: center;
+    padding: 32px 16px 24px;
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 8px 32px rgba(26,71,42,0.25);
+    margin-bottom: 32px;
+  }
+  header h1 { font-size: 1.5rem; font-weight: 700; }
+  header h2 { font-size: 0.9rem; font-weight: 400; opacity: 0.9; margin-top: 6px; }
+  header .badge {
+    display: inline-block;
+    background: var(--soft-gold);
+    color: var(--earth-brown);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 12px;
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+  }
+  .card h3 {
+    font-size: 1.15rem;
+    color: var(--forest-green);
+    margin-bottom: 6px;
+  }
+  .card p.subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  @media (min-width: 480px) {
+    .scenario-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .scenario-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--charcoal);
+  }
+  .scenario-btn:hover {
+    border-color: var(--forest-accent);
+    background: #f6fdf8;
+    transform: translateY(-1px);
+  }
+  .scenario-btn.selected {
+    border-color: var(--forest-green);
+    background: #e8f5e9;
+    box-shadow: 0 2px 8px rgba(26,71,42,0.12);
+  }
+  .scenario-btn .icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .scenario-btn .title { font-weight: 600; display: block; margin-bottom: 2px; }
+  .scenario-btn .desc { font-size: 0.8rem; color: #777; font-weight: 400; }
+  .output-section {
+    margin-top: 24px;
+  }
+  .output-block {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--forest-accent);
+  }
+  .output-block.compliance { border-left-color: var(--info); background: #f0f7ff; }
+  .output-block.training { border-left-color: var(--soft-gold); background: #fffbf0; }
+  .output-block.quiz { border-left-color: var(--forest-green); background: #f6fdf8; }
+  .output-block h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: var(--forest-green);
+  }
+  .output-block.compliance h4 { color: var(--info); }
+  .output-block.training h4 { color: var(--earth-brown); }
+  .output-block.quiz h4 { color: var(--forest-green); }
+  .output-block ol, .output-block ul {
+    padding-left: 20px;
+    font-size: 0.95rem;
+  }
+  .output-block li { margin-bottom: 6px; }
+  .output-block p { font-size: 0.95rem; margin-bottom: 8px; }
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(26,71,42,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-secondary {
+    background: white;
+    color: var(--forest-green);
+    border: 2px solid var(--forest-green);
+  }
+  .btn-secondary:hover { background: #f6fdf8; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .custom-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    font-family: inherit;
+  }
+  .custom-input:focus {
+    outline: none;
+    border-color: var(--forest-accent);
+  }
+  .hidden { display: none !important; }
+  .fade-in { animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .print-btn {
+    background: var(--earth-brown);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  .tag-critical { background: #ffebee; color: var(--danger); }
+  .tag-warning { background: #fff3e0; color: var(--warning); }
+  .tag-info { background: #e3f2fd; color: var(--info); }
+  @media print {
+    header, .nav-btns, .scenario-grid, .custom-input, .print-btn { display: none !important; }
+    body { background: white; }
+    .card { box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header role="banner">
+    <h1>The Forest</h1>
+    <h2>SOP &amp; Training Engine — Cleveland Heights</h2>
+    <div class="badge">Manager Tool v1.0</div>
+  </header>
+
+  <!-- SCENARIO SELECTOR -->
+  <div class="card" id="selectorCard">
+    <h3>Select a Scenario</h3>
+    <p class="subtitle">Choose a common dispensary situation to generate the complete SOP, compliance check, training script, and quiz.</p>
+    <div class="scenario-grid">
+      <button class="scenario-btn" onclick="generateSOP('overcharge')">
+        <span class="icon">&#128176;</span>
+        <span><span class="title">Customer Disputes Overcharge</span><span class="desc">Price mismatch, rounding error, discount not applied</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('id_issue')">
+        <span class="icon">&#128100;</span>
+        <span><span class="title">ID Verification Problem</span><span class="desc">Expired ID, out-of-state, medical card issue</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('drive_thru_delay')">
+        <span class="icon">&#128664;</span>
+        <span><span class="title">Drive-Thru Line Backup</span><span class="desc">10+ cars, system down, staffing shortage</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('medical_vs_adult')">
+        <span class="icon">&#9877;&#65039;</span>
+        <span><span class="title">Medical vs. Adult-Use Confusion</span><span class="desc">Customer unsure of limits, wants both types</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('return_request')">
+        <span class="icon">&#9851;&#65039;</span>
+        <span><span class="title">Product Return Request</span><span class="desc">Defective product, wrong item, change of mind</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('stockout')">
+        <span class="icon">&#128683;</span>
+        <span><span class="title">Customer Wants Out-of-Stock Item</span><span class="desc">Popular strain sold out, medical patient dependent</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('rude_customer')">
+        <span class="icon">&#128544;</span>
+        <span><span class="title">Hostile or Rude Customer</span><span class="desc">Verbal abuse, intoxicated, threatening</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('bulk_discount')">
+        <span class="icon">&#128230;</span>
+        <span><span class="title">Bulk Purchase / Discount Request</span><span class="desc">Wants ounce deal, veteran discount, group rate</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('intoxicated')">
+        <span class="icon">&#127866;</span>
+        <span><span class="title">Visibly Intoxicated Customer</span><span class="desc">Already impaired, slurred speech, wants to buy</span></span>
+      </button>
+      <button class="scenario-btn" onclick="generateSOP('theft_suspected')">
+        <span class="icon">&#128373;&#65039;</span>
+        <span><span class="title">Theft or Shrinkage Suspected</span><span class="desc">Missing product, suspicious behavior, register short</span></span>
+      </button>
+    </div>
+    <div style="margin-top: 20px;">
+      <p class="subtitle" style="margin-bottom: 8px;">Or enter a custom scenario:</p>
+      <input type="text" class="custom-input" id="customScenario" placeholder="e.g., Customer wants to use a coupon from a competitor...">
+      <button class="btn btn-primary" onclick="generateCustomSOP()">Generate Custom SOP</button>
+    </div>
+  </div>
+
+  <!-- OUTPUT CARD -->
+  <div class="card hidden" id="outputCard">
+    <h3 id="outputTitle">Generated SOP</h3>
+    <p class="subtitle" id="outputSubtitle">Review, print, and use for immediate staff training.</p>
+
+    <div class="output-section" id="outputContent"></div>
+
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="backToSelector()">Back to Scenarios</button>
+      <button class="btn btn-primary" onclick="window.print()">Print This SOP</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const sopDatabase = {
+  overcharge: {
+    title: "Customer Disputes Overcharge",
+    severity: "critical",
+    sop: [
+      "Acknowledge the customer's concern immediately. Say: 'I understand this is frustrating. Let me review this with you right now.'",
+      "Move the customer to the consultation area or a quiet spot away from the register line.",
+      "Review the receipt line-by-line WITH the customer. Do not review it alone behind the counter.",
+      "Check the online menu price on a secondary device (tablet, phone) in real-time.",
+      "If the POS applied an incorrect discount or forced the 'best discount' logic: apologize, void the transaction, and re-ring at the correct price.",
+      "If the customer was overcharged: process refund immediately. Do not make the customer wait for a manager unless the amount exceeds $50.",
+      "Document the discrepancy in the Daily Log with: date, time, register number, amount, and root cause.",
+      "Offer a $5 loyalty credit as a goodwill gesture for any verified overcharge."
+    ],
+    compliance: [
+      "Ohio DCC requires all refunds to be documented in METRC-adjacent records.",
+      "Ensure the original receipt is voided and a new receipt is printed — do not hand-write corrections.",
+      "If the overcharge exceeds $100 or involves a medical patient, escalate to Store Manager same-day.",
+      "Never tell a customer 'the system doesn't make mistakes.' The system makes mistakes daily."
+    ],
+    training: [
+      "Today we are covering price integrity. If a customer disputes a charge, your first job is to make them feel heard, not defended against.",
+      "Here is the 5-step process: acknowledge, move, review together, verify online, fix immediately.",
+      "Role-play: I am a customer who was overcharged $20 on GG4. Walk me through your response.",
+      "Common mistake: reviewing the receipt alone behind the counter. Always review WITH the customer.",
+      "The $5 loyalty credit is not a bribe — it is a retention investment. A lost customer costs us $500 in lifetime value."
+    ],
+    quiz: [
+      "What is the FIRST thing you say when a customer disputes a charge?",
+      "At what dollar threshold must a manager be involved in an overcharge?",
+      "Why do we review the receipt WITH the customer instead of alone behind the counter?",
+      "What system must be updated when processing a refund?"
+    ]
+  },
+  id_issue: {
+    title: "ID Verification Problem",
+    severity: "critical",
+    sop: [
+      "Politely request ID from every customer who appears under 40. No exceptions.",
+      "Check: ID is government-issued, not expired, photo matches customer, customer is 21+ (or 18+ with valid medical card).",
+      "For medical patients: verify Ohio Medical Marijuana Registry card is active and matches the ID.",
+      "If ID is expired: 'I am sorry, but Ohio law requires a current, valid ID. I cannot complete this sale.' Do not negotiate.",
+      "If ID is out-of-state: Accept for adult-use (21+). For medical, ONLY accept Ohio-issued registry cards.",
+      "If customer has no ID: 'I am required by Ohio law to verify age with a valid ID. I cannot make exceptions.'",
+      "If customer becomes hostile: De-escalate using the Hostile Customer SOP. Do not complete the sale.",
+      "Document any refused sale in the Daily Log with time, description, and reason."
+    ],
+    compliance: [
+      "Ohio Revised Code 3796.22: Sale to a minor is a felony. One violation can result in license revocation.",
+      "Ohio DCC requires dispensaries to verify age for every adult-use transaction.",
+      "Medical registry verification is mandatory — do not accept a medical card photo on a phone.",
+      "Retain copies of refused sale logs for 3 years per Ohio DCC recordkeeping requirements."
+    ],
+    training: [
+      "Today we are covering the most important compliance rule in this building: ID verification.",
+      "One mistake here does not just cost your job — it costs The Forest its Ohio license.",
+      "Role-play: I am a 19-year-old with a fake ID. Show me how you check it.",
+      "Role-play: I am a medical patient whose registry card expired yesterday. What do you say?",
+      "The customer will push. They will beg. They will say 'the other location lets me.' Your answer is always: 'I am required by Ohio law.'"
+    ],
+    quiz: [
+      "What are the four checks for a valid ID?",
+      "Can you accept an out-of-state driver's license for a medical purchase?",
+      "What is the legal consequence of selling to a minor in Ohio?",
+      "How long must refused sale logs be retained?"
+    ]
+  },
+  drive_thru_delay: {
+    title: "Drive-Thru Line Backup",
+    severity: "warning",
+    sop: [
+      "At 5+ cars: Call for backup from the floor. One staff member handles orders; one handles payment.",
+      "At 10+ cars: Pause new online orders. Post a sign: 'Drive-thru experiencing high volume. In-store pickup available.'",
+      "Communicate wait time to each car: 'Thank you for your patience. Current wait is approximately X minutes.'",
+      "If the POS system is down: Switch to manual order verification (printed pre-order list + ID check). Do not turn cars away.",
+      "If staffing is the bottleneck: The Lead Associate calls in off-duty staff or extends the current shift. Do not let the line exceed 15 minutes.",
+      "Offer a $3 loyalty credit to any customer who waits more than 10 minutes.",
+      "End-of-shift: Document peak times, average wait, and root cause in the Daily Log."
+    ],
+    compliance: [
+      "Drive-thru customers must still present valid ID and receive the same compliance warnings as in-store customers.",
+      "Do not rush ID verification because of line pressure. One compliance mistake in the drive-thru is the same as one in the store.",
+      "Manual order verification must still reference METRC batch numbers for traceability."
+    ],
+    training: [
+      "Today we are covering drive-thru efficiency without sacrificing compliance.",
+      "The drive-thru is our competitive advantage. A 15-minute wait destroys that advantage.",
+      "Role-play: The POS is down and there are 8 cars in line. Walk me through your manual process.",
+      "The $3 loyalty credit is cheaper than a negative Google review. Use it freely.",
+      "Your job is not to move cars fast. Your job is to move cars RIGHT. Speed follows from accuracy."
+    ],
+    quiz: [
+      "At what car count do you call for backup?",
+      "What is the maximum acceptable wait time before offering a loyalty credit?",
+      "Can you skip ID verification in the drive-thru to speed up the line?",
+      "What must still be referenced during manual order verification?"
+    ]
+  },
+  medical_vs_adult: {
+    title: "Medical vs. Adult-Use Confusion",
+    severity: "warning",
+    sop: [
+      "Ask every customer: 'Are you shopping as a medical patient today, or adult-use?' Do not assume.",
+      "If medical: Verify active Ohio registry card. Explain medical purchase limits (90-day supply, determined by physician recommendation).",
+      "If adult-use: Explain purchase limits (1 oz per transaction, 2.5 oz possession max).",
+      "If customer wants BOTH medical and adult-use in one visit: They must complete two separate transactions. Medical first, then adult-use.",
+      "Medical patients receive 25% discount (veteran, indigent, or standard medical group rate). Adult-use customers do not.",
+      "If customer is confused about their status: 'Let me help you understand your options. Medical purchases have higher limits and tax advantages. Adult-use is simpler but has lower limits.'",
+      "Never make a customer feel stupid for not understanding the dual system. Ohio's rules are genuinely confusing."
+    ],
+    compliance: [
+      "Ohio law requires medical and adult-use transactions to be tracked separately in METRC.",
+      "Medical purchase limits are determined by the patient's physician recommendation — not a fixed number. Check the registry.",
+      "Adult-use customers cannot access medical-only products (higher-CBD, specific formulations).",
+      "Tax rates differ: medical is lower. Charging adult-use tax on a medical purchase is a financial compliance error."
+    ],
+    training: [
+      "Today we are covering the most confusing part of Ohio cannabis: the dual medical and adult-use system.",
+      "Your job is not to enforce the law like a cop. Your job is to guide the customer like a concierge.",
+      "Role-play: I am a medical patient who wants to buy 3 ounces today. What do you say?",
+      "Role-play: I am an adult-use customer who wants your highest-CBD product. What do you say?",
+      "The customer did not write these laws. Be patient. Be clear. Be kind."
+    ],
+    quiz: [
+      "What is the adult-use purchase limit per transaction?",
+      "Can medical and adult-use products be purchased in a single transaction?",
+      "Who determines a medical patient's purchase limit?",
+      "Why must medical and adult-use transactions be tracked separately?"
+    ]
+  },
+  return_request: {
+    title: "Product Return Request",
+    severity: "warning",
+    sop: [
+      "Listen to the customer's concern fully before responding. Do not interrupt.",
+      "If product is defective (broken seal, mold, incorrect labeling): Accept return immediately. Offer replacement or full refund.",
+      "If product is opened and partially used: Explain Ohio DCC policy — opened cannabis products cannot be returned for hygiene and safety reasons.",
+      "If customer is unsatisfied with effects: Explain that cannabis affects individuals differently. Offer a different product recommendation using the Medical Patient Concierge tool.",
+      "If customer simply changed their mind: Same as opened product — cannot be returned per Ohio DCC.",
+      "For all returns: Document in Daily Log with product name, batch number, reason, and resolution.",
+      "Escalate to Store Manager if: (1) product cost > $100, (2) customer is hostile, (3) defect suggests supplier issue."
+    ],
+    compliance: [
+      "Ohio DCC prohibits the return of opened or partially consumed cannabis products.",
+      "Defective products must be quarantined and reported to the supplier and Ohio DCC if they pose a safety risk.",
+      "All returns must be documented with METRC batch numbers for traceability.",
+      "Refunds must be processed through the original payment method when possible."
+    ],
+    training: [
+      "Today we are covering returns — one of the most emotionally charged interactions in retail.",
+      "The customer is not trying to scam us. They are disappointed. Your empathy is the retention tool.",
+      "Role-play: I bought a vape cartridge that does not work. I used half of it before realizing. What do you say?",
+      "Role-play: I bought an edible that gave me a bad reaction. I want my money back. What do you say?",
+      "The answer is never 'tough luck.' The answer is always: 'I understand your frustration. Here is what Ohio law allows us to do, and here is what I can do for you beyond that.'"
+    ],
+    quiz: [
+      "Can an opened cannabis product be returned in Ohio?",
+      "What three conditions require manager escalation for a return?",
+      "What must be documented for every return?",
+      "Why must defective products be quarantined?"
+    ]
+  },
+  stockout: {
+    title: "Customer Wants Out-of-Stock Item",
+    severity: "info",
+    sop: [
+      "Apologize sincerely: 'I am sorry — that strain sold out faster than we expected. It is popular for a reason.'",
+      "Check the inventory system for exact restock date. If restocking within 48 hours: offer to hold a unit for the customer.",
+      "If no restock date: Offer the closest alternative using the Medical Patient Concierge tool.",
+      "For medical patients dependent on a specific strain: Escalate to Store Manager. Medical continuity matters.",
+      "Offer a 10% discount on the alternative product as a goodwill gesture.",
+      "Add the customer to the 'Restock Alert' list (name + phone). Text them when the product arrives.",
+      "Document the stockout in the Daily Log with product name and number of customer requests."
+    ],
+    compliance: [
+      "Never sell a product from a different batch without updating METRC records.",
+      "If substituting a medical patient's prescribed strain, document the substitution and notify the patient.",
+      "Restock alerts must not promise specific dates — only 'estimated arrival' to avoid false advertising."
+    ],
+    training: [
+      "Today we are covering stockouts — the moment when a disappointed customer becomes a loyal customer or a lost customer.",
+      "Your empathy and your product knowledge are the only tools you have in this moment.",
+      "Role-play: I have been buying GG4 for my chronic pain for six months. You are out. What do you say?",
+      "The 10% discount is not a loss — it is cheaper than acquiring a new customer.",
+      "Medical patients are not recreational shoppers. A stockout for them is a health disruption. Treat it seriously."
+    ],
+    quiz: [
+      "What discount is offered as a goodwill gesture for a stockout?",
+      "Why must medical stockouts be escalated to the Store Manager?",
+      "What must be documented for every stockout?",
+      "Why can you not promise a specific restock date to a customer?"
+    ]
+  },
+  rude_customer: {
+    title: "Hostile or Rude Customer",
+    severity: "critical",
+    sop: [
+      "Stay calm. Do not match their energy. Lower your voice and slow your speech.",
+      "Acknowledge their emotion: 'I can see you are frustrated. I want to help resolve this.'",
+      "If the customer uses profanity or personal attacks: 'I am here to help, but I need you to speak to me respectfully so I can assist you.'",
+      "If the customer is intoxicated: Refuse service per the Intoxicated Customer SOP. Do not engage in argument.",
+      "If the customer makes threats or becomes physically aggressive: Immediately call 911 and evacuate other customers. Do not be a hero.",
+      "If the customer calms down: Resolve their issue using the relevant SOP (overcharge, return, etc.).",
+      "Document the incident in the Daily Log with time, description, staff involved, and resolution.",
+      "Debrief with the team after the incident. Hostility affects morale. Check in with each other."
+    ],
+    compliance: [
+      "Ohio DCC requires dispensaries to maintain a safe environment for staff and customers.",
+      "Threats or physical aggression must be reported to law enforcement AND documented in the incident log.",
+      "Staff have the right to refuse service to any customer who creates an unsafe environment.",
+      "Video footage of incidents must be retained for 30 days minimum."
+    ],
+    training: [
+      "Today we are covering the hardest part of retail: when a customer stops being a customer and becomes a threat.",
+      "Your safety is more important than any sale. Period.",
+      "Role-play: I am screaming at you because you will not sell to me without an ID. What do you do?",
+      "Role-play: I just called you a name and I am getting louder. What do you do?",
+      "De-escalation is not about winning. It is about surviving the interaction with your dignity and safety intact."
+    ],
+    quiz: [
+      "What is the FIRST response to a hostile customer?",
+      "At what point do you call 911?",
+      "How long must video footage of incidents be retained?",
+      "Why is team debrief mandatory after a hostile incident?"
+    ]
+  },
+  bulk_discount: {
+    title: "Bulk Purchase / Discount Request",
+    severity: "info",
+    sop: [
+      "Clarify the request: 'Are you asking about our daily group discounts, or a special bulk rate?'",
+      "Daily group discounts (25% off): Veterans with ID, medical patients, indigent customers with documentation.",
+      "There is no 'bulk rate' for adult-use customers beyond the daily deals. Ohio law prohibits quantity discounts that encourage over-purchase.",
+      "If customer wants an ounce: Adult-use limit is 1 oz per transaction. They can complete a second transaction 24 hours later.",
+      "If customer is a medical patient: Their limit is determined by their physician recommendation (up to 90-day supply).",
+      "If customer argues: 'I understand the frustration. Ohio sets these limits to ensure safe access. I cannot override state law.'",
+      "Never create an unofficial discount. Every discount must be documented in the POS system."
+    ],
+    compliance: [
+      "Ohio DCC prohibits quantity-based pricing that incentivizes purchases above legal limits.",
+      "All discounts must be applied through the POS and tracked in METRC.",
+      "Unofficial discounts create audit trails that can trigger Ohio DCC investigation.",
+      "Medical purchase limits are physician-determined, not negotiable."
+    ],
+    training: [
+      "Today we are covering discounts — the moment when friendly becomes fraudulent.",
+      "There is no 'hookup.' There is no 'friends and family.' There is only what Ohio law allows and what The Forest policy allows.",
+      "Role-play: I am a regular who spends $500 a month. I want a bulk discount. What do you say?",
+      "Role-play: I am a veteran but I forgot my ID. Can you just give me the discount? What do you say?",
+      "Your answer is always: 'I would love to help, but every discount must be verified and documented. No exceptions.'"
+    ],
+    quiz: [
+      "What three groups qualify for the 25% daily group discount?",
+      "Why are quantity-based discounts prohibited in Ohio?",
+      "What is the adult-use purchase limit per transaction?",
+      "Why must all discounts be applied through the POS system?"
+    ]
+  },
+  intoxicated: {
+    title: "Visibly Intoxicated Customer",
+    severity: "critical",
+    sop: [
+      "Observe from a distance first. Do not confront immediately if the customer is aggressive.",
+      "If the customer is calm but clearly impaired: 'I am sorry, but Ohio law prohibits us from selling cannabis to anyone who appears intoxicated. I cannot complete this sale today.'",
+      "If the customer argues: 'This is not a judgment on you. It is a legal requirement for our license. I am happy to serve you another time.'",
+      "If the customer is with sober companions: Explain that the companions can purchase for themselves, but not on behalf of the intoxicated person (proxy purchase is illegal).",
+      "If the customer becomes hostile: Switch to the Hostile Customer SOP immediately.",
+      "Document the refusal in the Daily Log with time, description, and staff witness.",
+      "Never sell to an intoxicated person, even if they are a regular. One violation risks the entire license."
+    ],
+    compliance: [
+      "Ohio Revised Code 3796.22: Sale to an intoxicated person is prohibited and can result in license suspension.",
+      "Proxy purchases (sober companion buying for intoxicated person) are illegal and must be refused.",
+      "Staff judgment is protected — you cannot be punished for refusing a sale you believe violates the law.",
+      "Document all intoxicated refusals to demonstrate due diligence during audits."
+    ],
+    training: [
+      "Today we are covering the refusal of service — the most legally protected and emotionally difficult action you will take.",
+      "You are not a bartender cutting someone off. You are a professional refusing an illegal sale.",
+      "Role-play: I am slurring my words but I am a regular who tips well. What do you say?",
+      "Role-play: My sober friend is buying for me. What do you say?",
+      "The law is on your side. Your manager is on your side. Do not sell."
+    ],
+    quiz: [
+      "What is the legal basis for refusing sale to an intoxicated person?",
+      "Can a sober companion purchase on behalf of an intoxicated person?",
+      "Why must all intoxicated refusals be documented?",
+      "Are you protected from punishment for refusing a sale you believe is illegal?"
+    ]
+  },
+  theft_suspected: {
+    title: "Theft or Shrinkage Suspected",
+    severity: "critical",
+    sop: [
+      "Do NOT confront the customer directly. Your safety is the priority.",
+      "Observe and document: time, description, behavior, items involved.",
+      "Notify the Store Manager or Lead Associate immediately via discreet communication (text, whisper, code word).",
+      "If the customer has already left: Review security footage. Document the incident with timestamp.",
+      "If the theft involves a register short: Count the drawer immediately. Reconcile with POS records. Document the discrepancy.",
+      "If product is missing from inventory: Check METRC records for miscounts before assuming theft.",
+      "Never accuse a customer of theft without video evidence and manager approval.",
+      "File a police report only if the value exceeds $100 or if there is a pattern of incidents."
+    ],
+    compliance: [
+      "Ohio DCC requires dispensaries to maintain accurate inventory records in METRC. Discrepancies must be investigated and documented.",
+      "All security footage must be retained for 30 days minimum.",
+      "False accusations of theft can result in defamation lawsuits. Never accuse without evidence.",
+      "Register shorts must be investigated same-day and documented in the cash reconciliation log."
+    ],
+    training: [
+      "Today we are covering theft — the moment when your observation skills matter more than your courage.",
+      "You are not a security guard. You are an observer. Let the cameras and the manager handle confrontation.",
+      "Role-play: You notice a customer slipping a pre-roll into their pocket. What do you do?",
+      "Role-play: The register is $40 short at end of shift. What do you do?",
+      "Theft hurts everyone — but a false accusation hurts us more. Evidence first, action second."
+    ],
+    quiz: [
+      "What is the FIRST action when theft is suspected?",
+      "How long must security footage be retained?",
+      "At what dollar threshold must a police report be filed?",
+      "Why must METRC records be checked before assuming theft?"
+    ]
+  }
+};
+
+function generateSOP(scenarioKey) {
+  const data = sopDatabase[scenarioKey];
+  if (!data) return;
+  showOutput(data);
+}
+
+function generateCustomSOP() {
+  const input = document.getElementById('customScenario').value.trim();
+  if (!input) { alert('Please enter a scenario description first.'); return; }
+
+  // Generate a generic but useful SOP for any custom scenario
+  const customData = {
+    title: "Custom Scenario: " + input,
+    severity: "warning",
+    sop: [
+      "Acknowledge the customer's concern immediately. Listen fully before responding.",
+      "Assess whether the request falls within Ohio DCC regulations and The Forest policy.",
+      "If the request is permitted: Execute using standard procedures. Document in the Daily Log.",
+      "If the request is unclear: Escalate to the Lead Associate or Store Manager before proceeding.",
+      "If the request violates policy: Explain clearly and respectfully. Offer alternatives when possible.",
+      "Never guess. If you are unsure, pause and ask. A 30-second delay is better than a compliance violation."
+    ],
+    compliance: [
+      "When in doubt, escalate. Ohio DCC violations carry license-level consequences.",
+      "All unusual transactions must be documented with customer description, time, and resolution.",
+      "Manager approval is required for any transaction that deviates from standard SOPs."
+    ],
+    training: [
+      "Today we are covering an edge case: " + input + ".",
+      "Edge cases are where compliance mistakes happen. Slow down. Ask questions. Document everything.",
+      "Role-play: A customer presents this exact scenario. Walk me through your response.",
+      "The difference between a good employee and a great employee is knowing when to say 'I need to check with my manager.'"
+    ],
+    quiz: [
+      "What is the first step when facing an unfamiliar scenario?",
+      "Why is it better to pause for 30 seconds than to guess?",
+      "What must be documented for all unusual transactions?",
+      "Who must approve transactions that deviate from standard SOPs?"
+    ]
+  };
+  showOutput(customData);
+}
+
+function showOutput(data) {
+  document.getElementById('selectorCard').classList.add('hidden');
+  const outputCard = document.getElementById('outputCard');
+  outputCard.classList.remove('hidden');
+  outputCard.classList.add('fade-in');
+
+  document.getElementById('outputTitle').textContent = data.title;
+
+  const severityTag = data.severity === 'critical' ? '<span class="tag tag-critical">CRITICAL</span>' :
+                      data.severity === 'warning' ? '<span class="tag tag-warning">WARNING</span>' :
+                      '<span class="tag tag-info">INFO</span>';
+
+  let html = severityTag + '<br><br>';
+
+  html += '<div class="output-block">' +
+    '<h4>Standard Operating Procedure (SOP)</h4>' +
+    '<ol>' + data.sop.map(s => '<li>' + s + '</li>').join('') + '</ol>' +
+    '</div>';
+
+  html += '<div class="output-block compliance">' +
+    '<h4>Ohio DCC Compliance Check</h4>' +
+    '<ul>' + data.compliance.map(c => '<li>' + c + '</li>').join('') + '</ul>' +
+    '</div>';
+
+  html += '<div class="output-block training">' +
+    '<h4>2-Minute Training Script</h4>' +
+    '<ol>' + data.training.map(t => '<li>' + t + '</li>').join('') + '</ol>' +
+    '</div>';
+
+  html += '<div class="output-block quiz">' +
+    '<h4>3 Quiz Questions</h4>' +
+    '<ol>' + data.quiz.map(q => '<li>' + q + '</li>').join('') + '</ol>' +
+    '</div>';
+
+  document.getElementById('outputContent').innerHTML = html;
+}
+
+function backToSelector() {
+  document.getElementById('outputCard').classList.add('hidden');
+  document.getElementById('selectorCard').classList.remove('hidden');
+  document.getElementById('selectorCard').classList.add('fade-in');
+  document.getElementById('customScenario').value = '';
+}
+</script>
+</body>
+</html>

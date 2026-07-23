@@ -1,0 +1,177 @@
+HOW TO EDIT THE SOP AND TRAINING ENGINE
+For Learning and Development Managers with No Programming Experience
+
+=== WHAT YOU CAN EDIT ===
+
+You can change:
+1. Scenario titles
+2. Scenario descriptions
+3. The step-by-step SOP instructions
+4. The Ohio DCC compliance checks
+5. The two-minute training scripts
+6. The three quiz questions and answers
+7. You can add entirely new scenarios
+8. You can remove scenarios you do not need
+
+You cannot break the tool. If you make a mistake, the tool will still open. It may show strange text, but it will not crash. You can always undo your changes and try again.
+
+=== WHAT YOU NEED ===
+
+You need a text editor. On Windows, use Notepad. On Mac, use TextEdit in plain text mode. Do not use Microsoft Word. Word adds hidden formatting that breaks the tool.
+
+=== STEP-BY-STEP INSTRUCTIONS ===
+
+Step One. Locate the file.
+Open the folder named Zero-Three-TOOLS-READY-TO-DEPLOY.
+Find the file named Zero-Two-SOP-Training-Engine.html.
+Right-click the file.
+Select Open With.
+Choose Notepad on Windows or TextEdit on Mac.
+
+Step Two. Find the scenario database.
+The file is long. Do not read all of it.
+Press Control and F at the same time. On a Mac, press Command and F.
+A search box will appear.
+Type the exact text: overcharge:
+Press Enter.
+The editor will jump to the first scenario in the database.
+
+Step Three. Understand the scenario format.
+Each scenario looks like this example. I will show you one complete scenario and label every part.
+
+  overcharge: {
+    title: "Customer Disputes Overcharge",
+    severity: "critical",
+    sop: [
+      "Acknowledge the customer's concern immediately.",
+      "Move the customer to the consultation area.",
+      "Review the receipt line-by-line WITH the customer.",
+      "Check the online menu price on a secondary device.",
+      "If the POS applied an incorrect discount: apologize and re-ring.",
+      "If the customer was overcharged: process refund immediately.",
+      "Document the discrepancy in the Daily Log.",
+      "Offer a $5 loyalty credit as a goodwill gesture."
+    ],
+    compliance: [
+      "Ohio DCC requires all refunds to be documented in METRC-adjacent records.",
+      "Ensure the original receipt is voided and a new receipt is printed.",
+      "If the overcharge exceeds $100, escalate to Store Manager same-day.",
+      "Never tell a customer 'the system doesn't make mistakes.'"
+    ],
+    training: [
+      "Today we are covering price integrity.",
+      "Here is the 5-step process: acknowledge, move, review, verify, fix.",
+      "Role-play: I am a customer who was overcharged $20. Walk me through your response.",
+      "Common mistake: reviewing the receipt alone behind the counter.",
+      "The $5 loyalty credit is not a bribe — it is a retention investment."
+    ],
+    quiz: [
+      "What is the FIRST thing you say when a customer disputes a charge?",
+      "At what dollar threshold must a manager be involved in an overcharge?",
+      "Why do we review the receipt WITH the customer instead of alone?",
+      "What system must be updated when processing a refund?"
+    ]
+  }
+
+Here is what each line means:
+
+Line 1: "overcharge" is the internal code name for this scenario. Do not change this unless you are adding a completely new scenario. If you are editing an existing scenario, leave this line alone.
+
+Line 2: title is what appears on the scenario button and at the top of the output. Change the text inside the quotation marks.
+
+Line 3: severity controls the color of the output. Valid options are: critical, warning, info. Do not invent new severity levels.
+
+Line 4: sop: [ opens the list of step-by-step instructions. Each instruction goes inside quotation marks and is separated by a comma. You can have as many or as few steps as you want. Each step should be one sentence.
+
+Line 5 through Line 12: These are the individual SOP steps. Change the text inside each pair of quotation marks. Write each step as a command. For example: "Acknowledge the customer." not "You should acknowledge the customer."
+
+Line 13: ], closes the SOP list.
+
+Line 14: compliance: [ opens the list of compliance checks. Each check goes inside quotation marks and is separated by a comma.
+
+Line 15 through Line 18: These are the individual compliance checks. Change the text inside each pair of quotation marks. Include specific Ohio DCC references when possible.
+
+Line 19: ], closes the compliance list.
+
+Line 20: training: [ opens the list of training script lines. Each line goes inside quotation marks and is separated by a comma.
+
+Line 21 through Line 25: These are the lines of the two-minute training script. Change the text inside each pair of quotation marks. Line 3 should always be a role-play prompt. Line 4 should always be a common mistake warning.
+
+Line 26: ], closes the training list.
+
+Line 27: quiz: [ opens the list of quiz questions. Each question goes inside quotation marks and is separated by a comma.
+
+Line 28 through Line 31: These are the three quiz questions. Change the text inside each pair of quotation marks. Write each question so it has one clear correct answer.
+
+Line 32: ] closes the quiz list.
+
+Line 33: } closes the entire scenario.
+
+Step Four. Edit one scenario.
+Change the title, severity, and the text inside the quotation marks for the sop, compliance, training, and quiz sections.
+
+Important rule: Every line inside a list must end with a comma EXCEPT the last line before the closing bracket. The last line before the closing bracket has NO comma.
+
+Correct example inside a list:
+      "Acknowledge the customer.",
+      "Move to consultation area.",
+      "Review the receipt."
+    ],
+
+Incorrect example:
+      "Acknowledge the customer.",
+      "Move to consultation area.",
+      "Review the receipt.",
+    ],
+
+The incorrect example has a comma after the last item. That comma will break the tool. Remove it.
+
+Step Five. Save the file.
+Press Control and S at the same time. On a Mac, press Command and S.
+Close the text editor.
+Double-click the file to open it in your browser.
+Test the tool. Click the scenario you edited. Verify that your changes appear correctly.
+
+Step Six. Add a new scenario.
+To add a new scenario, copy an entire scenario block from the opening code name to the closing curly brace.
+Paste it after the last scenario block.
+Add a comma after the closing curly brace of the previous last scenario.
+Change the internal code name on the first line. It must be unique. For example: "new-scenario-name".
+Change all the scenario details.
+Save. Test.
+
+Step Seven. Remove a scenario.
+Delete the entire scenario block from the opening code name to the closing curly brace.
+If the scenario you deleted was the last one in the list, remove the comma after the closing curly brace of the new last scenario.
+Save. Test.
+
+=== THE CUSTOM SCENARIO FEATURE ===
+
+The tool has a text box at the bottom where managers can type any situation and generate a custom SOP. This feature uses a built-in generic template. You do not need to edit this feature. It works automatically for any text entered.
+
+=== COMMON MISTAKES AND HOW TO FIX THEM ===
+
+Mistake One. I added a comma after the last item in a list.
+Fix. Open the file. Find the list. Remove the comma after the last item before the closing bracket.
+
+Mistake Two. I used a word that is not in the valid list for severity.
+Fix. Open the file. Find the invalid word. Replace it with critical, warning, or info.
+
+Mistake Three. I deleted a quotation mark.
+Fix. Open the file. Find the line. Add the missing quotation mark. Every piece of text must have a quotation mark at the beginning and a quotation mark at the end.
+
+Mistake Four. I deleted a bracket or curly brace.
+Fix. Open the file. Find the missing bracket or brace. Add it back. Every opening bracket must have a matching closing bracket.
+
+Mistake Five. The tool opens but shows blank output when I click a scenario.
+Fix. You probably deleted a comma between two scenarios. Every scenario block except the last one must have a comma after its closing curly brace. Add the comma.
+
+=== BACKUP BEFORE EDITING ===
+
+Before you edit the file, make a copy.
+Right-click the file.
+Select Copy.
+Right-click in an empty space.
+Select Paste.
+A copy of the file will appear with a name like "Zero-Two-SOP-Training-Engine-Copy.html".
+If you break the original file, delete it and rename the copy to the original name.

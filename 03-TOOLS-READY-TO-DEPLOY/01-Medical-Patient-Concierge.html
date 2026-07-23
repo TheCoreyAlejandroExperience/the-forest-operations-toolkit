@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forest — Medical Patient Concierge | Cleveland Heights</title>
+<style>
+  :root {
+    --forest-green: #1a472a;
+    --forest-light: #2d6a3f;
+    --forest-accent: #4a9b5e;
+    --earth-brown: #5c4033;
+    --warm-cream: #faf8f3;
+    --soft-gold: #c9a227;
+    --charcoal: #1e1e1e;
+    --danger: #c0392b;
+    --success: #27ae60;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--warm-cream) 0%, #f0ece3 100%);
+    color: var(--charcoal);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 24px; }
+  header {
+    text-align: center;
+    padding: 32px 16px 24px;
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 8px 32px rgba(26,71,42,0.25);
+    margin-bottom: 32px;
+  }
+  header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
+  header h2 { font-size: 0.95rem; font-weight: 400; opacity: 0.9; margin-top: 6px; }
+  header .badge {
+    display: inline-block;
+    background: var(--soft-gold);
+    color: var(--earth-brown);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 12px;
+  }
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .step-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #d0d0d0;
+    transition: all 0.3s ease;
+  }
+  .step-dot.active { background: var(--forest-accent); transform: scale(1.3); }
+  .step-dot.completed { background: var(--forest-green); }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+  }
+  .card h3 {
+    font-size: 1.15rem;
+    color: var(--forest-green);
+    margin-bottom: 6px;
+  }
+  .card p.subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .option-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  @media (min-width: 480px) {
+    .option-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .option-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    width: 100%;
+  }
+  .option-btn:hover {
+    border-color: var(--forest-accent);
+    background: #f6fdf8;
+    transform: translateY(-1px);
+  }
+  .option-btn.selected {
+    border-color: var(--forest-green);
+    background: #e8f5e9;
+    box-shadow: 0 2px 8px rgba(26,71,42,0.12);
+  }
+  .option-btn .icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(26,71,42,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(26,71,42,0.3); }
+  .btn-secondary {
+    background: white;
+    color: var(--forest-green);
+    border: 2px solid var(--forest-green);
+  }
+  .btn-secondary:hover { background: #f6fdf8; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+  .result-card {
+    background: linear-gradient(135deg, #f6fdf8 0%, white 100%);
+    border: 2px solid var(--forest-accent);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .result-card h4 {
+    color: var(--forest-green);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .result-card .product-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--forest-green);
+    margin-bottom: 4px;
+  }
+  .result-card .product-brand {
+    font-size: 0.85rem;
+    color: var(--earth-brown);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  .tag-terpene { background: #e8f5e9; color: var(--forest-green); }
+  .tag-cannabinoid { background: #fff3e0; color: var(--earth-brown); }
+  .tag-effect { background: #e3f2fd; color: #1565c0; }
+  .talking-points {
+    background: white;
+    border-left: 4px solid var(--soft-gold);
+    padding: 16px 20px;
+    border-radius: 0 12px 12px 0;
+    margin-top: 12px;
+  }
+  .talking-points h5 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--earth-brown);
+    margin-bottom: 8px;
+  }
+  .talking-points p {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #444;
+  }
+  .dosage-box {
+    background: #fff8e1;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 12px;
+  }
+  .dosage-box h5 {
+    font-size: 0.85rem;
+    color: var(--earth-brown);
+    margin-bottom: 6px;
+  }
+  .dosage-box p { font-size: 0.9rem; color: #555; }
+  .warning-box {
+    background: #ffebee;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    border-left: 4px solid var(--danger);
+  }
+  .warning-box p { font-size: 0.85rem; color: var(--danger); font-weight: 500; }
+  .hidden { display: none !important; }
+  .fade-in { animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .print-btn {
+    background: var(--earth-brown);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+  }
+  .print-btn:hover { background: #4a3226; }
+  @media print {
+    header, .nav-btns, .step-indicator, .print-btn { display: none !important; }
+    body { background: white; }
+    .card, .result-card { box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header role="banner">
+    <h1>The Forest</h1>
+    <h2>Medical Patient Concierge — Cleveland Heights</h2>
+    <div class="badge">Staff Tool v1.0</div>
+  </header>
+
+  <div class="step-indicator" id="stepIndicator" role="navigation" aria-label="Progress">
+    <div class="step-dot active" data-step="1"></div>
+    <div class="step-dot" data-step="2"></div>
+    <div class="step-dot" data-step="3"></div>
+    <div class="step-dot" data-step="4"></div>
+    <div class="step-dot" data-step="5"></div>
+    <div class="step-dot" data-step="6"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="card fade-in" id="step1">
+    <h3>Step 1 of 6: Patient Type</h3>
+    <p class="subtitle">Is the customer shopping for medical relief, recreational use, or both?</p>
+    <div class="option-grid">
+      <button class="option-btn" onclick="selectOption(1, 'medical')">
+        <span class="icon">&#127973;</span>
+        <span><strong>Medical Only</strong><br><small>Registered Ohio medical patient seeking symptom relief</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(1, 'recreational')">
+        <span class="icon">&#127807;</span>
+        <span><strong>Adult-Use (Recreational)</strong><br><small>21+ with valid ID, seeking experience or wellness</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(1, 'both')">
+        <span class="icon">&#9877;&#65039;</span>
+        <span><strong>Both Medical &amp; Recreational</strong><br><small>Medical card holder who also enjoys adult-use products</small></span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" disabled>Back</button>
+      <button class="btn btn-primary" id="btn1" onclick="goToStep(2)" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card hidden" id="step2">
+    <h3>Step 2 of 6: Primary Concern or Goal</h3>
+    <p class="subtitle">What is the customer hoping to address or experience?</p>
+    <div class="option-grid cols-2">
+      <button class="option-btn" onclick="selectOption(2, 'sleep')">
+        <span class="icon">&#128564;</span>
+        <span><strong>Sleep &amp; Relaxation</strong><br><small>Insomnia, restlessness, winding down</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(2, 'pain')">
+        <span class="icon">&#129657;</span>
+        <span><strong>Pain &amp; Inflammation</strong><br><small>Chronic pain, arthritis, muscle soreness</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(2, 'anxiety')">
+        <span class="icon">&#129496;</span>
+        <span><strong>Anxiety &amp; Stress</strong><br><small>General anxiety, social stress, PTSD</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(2, 'appetite')">
+        <span class="icon">&#127860;</span>
+        <span><strong>Appetite &amp; Nausea</strong><br><small>Chemotherapy support, eating disorders, GI issues</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(2, 'energy')">
+        <span class="icon">&#9889;</span>
+        <span><strong>Energy &amp; Focus</strong><br><small>Daytime productivity, creative work, fatigue</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(2, 'mood')">
+        <span class="icon">&#128522;</span>
+        <span><strong>Mood Elevation</strong><br><small>Depression support, general well-being, social enjoyment</small></span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+      <button class="btn btn-primary" id="btn2" onclick="goToStep(3)" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card hidden" id="step3">
+    <h3>Step 3 of 6: Preferred Consumption Method</h3>
+    <p class="subtitle">How does the customer prefer to consume cannabis?</p>
+    <div class="option-grid cols-2">
+      <button class="option-btn" onclick="selectOption(3, 'smoke')">
+        <span class="icon">&#128684;</span>
+        <span><strong>Smoking (Flower / Pre-Roll)</strong><br><small>Fast onset, traditional method, full terpene experience</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(3, 'vape')">
+        <span class="icon">&#128168;</span>
+        <span><strong>Vaping</strong><br><small>Discreet, controlled dosage, less odor</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(3, 'edible')">
+        <span class="icon">&#127851;</span>
+        <span><strong>Edibles</strong><br><small>Long-lasting, no inhalation, precise dosing</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(3, 'tincture')">
+        <span class="icon">&#128167;</span>
+        <span><strong>Tinctures / Sublingual</strong><br><small>Fast-acting drops, easy to titrate, discreet</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(3, 'topical')">
+        <span class="icon">&#129524;</span>
+        <span><strong>Topicals</strong><br><small>Localized relief, no psychoactive effects</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(3, 'nopref')">
+        <span class="icon">&#10067;</span>
+        <span><strong>No Preference / New to Cannabis</strong><br><small>Staff will guide based on other factors</small></span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+      <button class="btn btn-primary" id="btn3" onclick="goToStep(4)" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="card hidden" id="step4">
+    <h3>Step 4 of 6: Cannabis Experience Level</h3>
+    <p class="subtitle">How experienced is the customer with cannabis?</p>
+    <div class="option-grid">
+      <button class="option-btn" onclick="selectOption(4, 'first')">
+        <span class="icon">&#127793;</span>
+        <span><strong>First-Time</strong><br><small>Never used cannabis or used only once or twice</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(4, 'occasional')">
+        <span class="icon">&#127807;</span>
+        <span><strong>Occasional</strong><br><small>Uses a few times per month, knows basics</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(4, 'regular')">
+        <span class="icon">&#127795;</span>
+        <span><strong>Regular</strong><br><small>Weekly user, familiar with strains and effects</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(4, 'experienced')">
+        <span class="icon">&#128293;</span>
+        <span><strong>Experienced / Connoisseur</strong><br><small>Daily user, seeks specific terpenes and cannabinoid profiles</small></span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="goToStep(3)">Back</button>
+      <button class="btn btn-primary" id="btn4" onclick="goToStep(5)" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="card hidden" id="step5">
+    <h3>Step 5 of 6: Budget Preference</h3>
+    <p class="subtitle">What price tier fits the customer's needs?</p>
+    <div class="option-grid">
+      <button class="option-btn" onclick="selectOption(5, 'value')">
+        <span class="icon">&#128176;</span>
+        <span><strong>Value Tier</strong><br><small>The Solid — quality without premium pricing</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(5, 'mid')">
+        <span class="icon">&#128176;&#128176;</span>
+        <span><strong>Mid-Range</strong><br><small>Balanced quality and price — most popular</small></span>
+      </button>
+      <button class="option-btn" onclick="selectOption(5, 'premium')">
+        <span class="icon">&#128176;&#128176;&#128176;</span>
+        <span><strong>Premium</strong><br><small>The Standard, Galenas Artifact Line, Gron — top shelf</small></span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="goToStep(4)">Back</button>
+      <button class="btn btn-primary" id="btn5" onclick="goToStep(6)" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: Results -->
+  <div class="card hidden" id="step6">
+    <h3>Step 6 of 6: Personalized Recommendation</h3>
+    <p class="subtitle">Review the recommendation below with the customer. Use the staff talking points to guide the conversation.</p>
+    <div id="resultsContainer"></div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="goToStep(5)">Back</button>
+      <button class="btn btn-primary" onclick="resetAll()">Start New Consultation</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let currentStep = 1;
+const selections = { step1: null, step2: null, step3: null, step4: null, step5: null };
+
+const products = {
+  "standard-gg4": {
+    name: "GG4 (Gorilla Glue #4)", brand: "The Standard", category: "flower", tier: "premium",
+    thc: "28-32%", cbd: "&lt;1%", terpenes: ["Caryophyllene","Myrcene","Limonene"],
+    effects: ["Relaxation","Pain Relief","Euphoria"], bestFor: ["pain","anxiety","sleep"],
+    methods: ["smoke","vape"],
+    description: "Award-winning hybrid. Heavy-hitting euphoria followed by deep body relaxation. The Standard's flagship strain.",
+    staffScript: "This is our top-seller from The Standard — GG4. It's a heavy hybrid, so you will feel the head high first, then the body melt. Great for end-of-day wind-down. Caryophyllene gives it that peppery nose and anti-inflammatory kick. Start with one hit and wait 10 minutes."
+  },
+  "galenas-eleventh": {
+    name: "Eleventh Dimension", brand: "Galenas", category: "flower", tier: "premium",
+    thc: "24-27%", cbd: "&lt;1%", terpenes: ["Limonene","Terpinolene","Myrcene"],
+    effects: ["Creativity","Focus","Uplift"], bestFor: ["energy","mood","anxiety"],
+    methods: ["smoke","vape"],
+    description: "Organic, small-batch sativa-dominant hybrid. Bright citrus aroma with energetic, clear-headed effects.",
+    staffScript: "Galenas is our organic, sustainability-focused grower — Eleventh Dimension is their daytime star. High limonene and terpinolene give it a bright, citrusy profile. Perfect for creative work or social situations. No couch-lock. Our Cleveland Heights regulars who work from home love this one."
+  },
+  "solid-ogk": {
+    name: "OG Kush", brand: "The Solid", category: "flower", tier: "value",
+    thc: "18-22%", cbd: "&lt;1%", terpenes: ["Myrcene","Limonene","Linalool"],
+    effects: ["Relaxation","Stress Relief","Appetite"], bestFor: ["anxiety","appetite","sleep"],
+    methods: ["smoke","vape"],
+    description: "Classic OG Kush at an accessible price point. Reliable indica-dominant hybrid for evening use.",
+    staffScript: "The Solid is our value line — this OG Kush hits all the classic notes without the premium price. Myrcene-heavy, so it is great for appetite and winding down. Perfect entry point for new patients or anyone watching their budget."
+  },
+  "fishwhistles-jack": {
+    name: "Jack Herer Pre-Roll Pack", brand: "Fish Whistles", category: "preroll", tier: "mid",
+    thc: "20-24%", cbd: "&lt;1%", terpenes: ["Terpinolene","Caryophyllene","Pinene"],
+    effects: ["Energy","Focus","Creativity"], bestFor: ["energy","mood","anxiety"],
+    methods: ["smoke"],
+    description: "Five 0.5g pre-rolls of classic Jack Herer. Sativa-dominant, clear-headed, and portable.",
+    staffScript: "Fish Whistles pre-rolls are our most convenient option — Jack Herer is the classic daytime sativa. Terpinolene and pinene keep it clear-headed, no fog. Great for patients who need discretion and do not want to roll their own. Five half-gram joints per pack."
+  },
+  "gron-dark": {
+    name: "Dark Chocolate Bar 1:1 THC:CBD", brand: "Gron", category: "edible", tier: "premium",
+    thc: "100mg", cbd: "100mg", terpenes: [],
+    effects: ["Relaxation","Pain Relief","Sleep"], bestFor: ["pain","sleep","anxiety"],
+    methods: ["edible"],
+    description: "Women-led, artisanal chocolate. 1:1 ratio with 5mg THC and 5mg CBD per piece. 20 pieces total.",
+    staffScript: "Gron is our women-led, artisanal edible line — the founder was an architect before she became a chocolatier. This 1:1 bar is our most-requested sleep edible. The CBD takes the edge off the THC, and the dark chocolate masks any cannabis taste. Start with half a piece, wait 90 minutes. Do not redose early."
+  },
+  "gron-pearls": {
+    name: "Pearls — Microdose Mints", brand: "Gron", category: "edible", tier: "premium",
+    thc: "100mg", cbd: "0mg", terpenes: [],
+    effects: ["Subtle Uplift","Focus","Social Ease"], bestFor: ["anxiety","energy","mood"],
+    methods: ["edible"],
+    description: "1mg THC per mint. 100 mints per tin. Perfect for microdosing and precise titration.",
+    staffScript: "Gron Pearls are 1mg each — perfect for microdosing. Pop one before a meeting, two before a social event. You will not feel high; you will feel smoother. Our anxiety patients love these because they can dial in their exact dose. 100 mints per tin, so it lasts."
+  },
+  "standard-gummies": {
+    name: "Assorted Fruit Gummies", brand: "The Standard", category: "edible", tier: "mid",
+    thc: "110mg", cbd: "0mg", terpenes: [],
+    effects: ["Relaxation","Body High","Euphoria"], bestFor: ["pain","sleep","mood"],
+    methods: ["edible"],
+    description: "11 pieces, 10mg THC each. Consistent dosing, great flavor, reliable effects.",
+    staffScript: "The Standard gummies are our workhorse edible — 10mg per piece, consistent batch to batch. Great for patients who want predictable effects without the premium price. Start with one, wait 90 minutes. These hit harder than most people expect."
+  },
+  "botanist-tincture": {
+    name: "1:1 THC:CBD Tincture", brand: "The Botanist", category: "tincture", tier: "mid",
+    thc: "300mg", cbd: "300mg", terpenes: [],
+    effects: ["Balanced Relief","Anti-Inflammatory","Calm"], bestFor: ["pain","anxiety","appetite"],
+    methods: ["tincture"],
+    description: "30ml dropper bottle. 10mg THC + 10mg CBD per ml. Sublingual for fast onset, or add to food.",
+    staffScript: "Tinctures are the most precise dosing method we carry. This 1:1 from The Botanist gives you 10mg per dropper. Hold it under your tongue for 30 seconds — you will feel it in 15-30 minutes, much faster than edibles. Great for patients who need consistency and do not want to smoke."
+  },
+  "standard-balm": {
+    name: "Relief Balm — 500mg CBD", brand: "The Standard", category: "topical", tier: "mid",
+    thc: "0mg", cbd: "500mg", terpenes: ["Menthol","Camphor","Eucalyptus"],
+    effects: ["Localized Relief","Anti-Inflammatory","No High"], bestFor: ["pain"],
+    methods: ["topical"],
+    description: "Non-psychoactive topical for localized pain and inflammation. No THC, no high.",
+    staffScript: "This is our go-to for patients who want relief without any psychoactive effects. 500mg CBD plus menthol and camphor for that cooling sensation. Rub it directly on the affected area — knees, shoulders, lower back. It will not get you high, and it will not show up on a drug test."
+  },
+  "ladi-vape": {
+    name: "LaDiDaDi Live Resin Cartridge", brand: "LaDiDaDi", category: "vape", tier: "premium",
+    thc: "75-85%", cbd: "&lt;2%", terpenes: ["Myrcene","Limonene","Caryophyllene"],
+    effects: ["Euphoria","Relaxation","Flavor"], bestFor: ["mood","pain","anxiety"],
+    methods: ["vape"],
+    description: "Live resin cartridge preserving full terpene profile. Bold flavor, smooth draw.",
+    staffScript: "LaDiDaDi is our flavor-forward line — this live resin cartridge preserves the full terpene profile from fresh-frozen flower. You will taste the difference immediately. The myrcene gives it that fruity, relaxing quality. Great for patients who want discretion without sacrificing quality. 510-thread, works with any standard battery."
+  }
+};
+
+function scoreProduct(product, answers) {
+  let score = 0;
+  const concern = answers.step2, method = answers.step3, experience = answers.step4, budget = answers.step5, patientType = answers.step1;
+  if (product.bestFor.includes(concern)) score += 10;
+  else if (concern === 'sleep' && product.effects.includes('Relaxation')) score += 5;
+  else if (concern === 'pain' && product.effects.includes('Anti-Inflammatory')) score += 5;
+  else if (concern === 'anxiety' && product.effects.includes('Calm')) score += 5;
+  if (method === 'nopref') score += 3;
+  else if (product.methods.includes(method)) score += 8;
+  if (experience === 'first') {
+    if (product.category === 'edible' && product.thc.includes('100mg')) score += 3;
+    if (product.category === 'topical') score += 4;
+    if (parseInt(product.thc) > 25) score -= 3;
+    if (product.tier === 'value') score += 2;
+  }
+  if (experience === 'experienced') {
+    if (product.tier === 'premium') score += 3;
+    if (parseInt(product.thc) > 25) score += 2;
+  }
+  if (budget === 'value' && product.tier === 'value') score += 5;
+  if (budget === 'premium' && product.tier === 'premium') score += 5;
+  if (budget === 'mid' && product.tier === 'mid') score += 5;
+  if ((patientType === 'medical' || patientType === 'both') && product.cbd && product.cbd !== '0mg' && product.cbd !== '&lt;1%') score += 3;
+  if (concern === 'sleep') {
+    if (product.category === 'edible') score += 3;
+    if (product.terpenes.includes('Myrcene')) score += 2;
+    if (product.terpenes.includes('Linalool')) score += 2;
+  }
+  if (concern === 'energy') {
+    if (product.terpenes.includes('Terpinolene')) score += 3;
+    if (product.terpenes.includes('Pinene')) score += 2;
+    if (product.terpenes.includes('Limonene')) score += 2;
+    if (product.category === 'edible') score -= 2;
+  }
+  return score;
+}
+
+function getRecommendations(answers) {
+  const scored = Object.entries(products).map(([id, product]) => ({ id, product, score: scoreProduct(product, answers) }));
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 3);
+}
+
+function selectOption(step, value) {
+  selections['step' + step] = value;
+  const card = document.getElementById('step' + step);
+  const buttons = card.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  document.getElementById('btn' + step).disabled = false;
+}
+
+function goToStep(step) {
+  document.getElementById('step' + currentStep).classList.add('hidden');
+  const nextCard = document.getElementById('step' + step);
+  nextCard.classList.remove('hidden');
+  nextCard.classList.add('fade-in');
+  for (let i = 1; i <= 6; i++) {
+    const dot = document.querySelector('.step-dot[data-step="' + i + '"]');
+    dot.classList.remove('active', 'completed');
+    if (i < step) dot.classList.add('completed');
+    else if (i === step) dot.classList.add('active');
+  }
+  currentStep = step;
+  if (step === 6) renderResults();
+}
+
+function renderResults() {
+  const recs = getRecommendations(selections);
+  const container = document.getElementById('resultsContainer');
+  let html = '';
+  const primary = recs[0];
+  html += '<div class="result-card">' +
+    '<div class="product-brand">' + primary.product.brand + '</div>' +
+    '<div class="product-name">' + primary.product.name + '</div>' +
+    '<p style="font-size:0.9rem;color:#555;margin-bottom:12px;">' + primary.product.description + '</p>' +
+    '<div style="margin-bottom:12px;">' +
+    primary.product.terpenes.map(t => '<span class="tag tag-terpene">' + t + '</span>').join('') +
+    '<span class="tag tag-cannabinoid">THC: ' + primary.product.thc + '</span>' +
+    (primary.product.cbd && primary.product.cbd !== '0mg' ? '<span class="tag tag-cannabinoid">CBD: ' + primary.product.cbd + '</span>' : '') +
+    primary.product.effects.map(e => '<span class="tag tag-effect">' + e + '</span>').join('') +
+    '</div>' +
+    '<div class="talking-points"><h5>Staff Talking Points</h5><p>"' + primary.product.staffScript + '"</p></div>' +
+    renderDosage(primary.product, selections.step4) +
+    '<div class="warning-box"><p>Remind every patient: Start low, go slow. Effects vary by individual. Do not operate heavy machinery. Keep away from children and pets.</p></div>' +
+    '</div>';
+  if (recs.length > 1) {
+    html += '<h4 style="color:var(--forest-green);margin:24px 0 12px;">Alternative Recommendations</h4>';
+    for (let i = 1; i < recs.length; i++) {
+      const alt = recs[i];
+      html += '<div class="result-card" style="border-color:#ddd;background:white;">' +
+        '<div class="product-brand">' + alt.product.brand + '</div>' +
+        '<div class="product-name" style="font-size:1.1rem;">' + alt.product.name + '</div>' +
+        '<p style="font-size:0.85rem;color:#555;margin-bottom:8px;">' + alt.product.description + '</p>' +
+        '<span class="tag tag-cannabinoid">THC: ' + alt.product.thc + '</span>' +
+        '<div class="talking-points" style="margin-top:10px;"><h5>Quick Script</h5><p style="font-size:0.9rem;">"' + alt.product.staffScript + '"</p></div>' +
+        '</div>';
+    }
+  }
+  html += '<button class="print-btn" onclick="window.print()">Print This Recommendation</button>';
+  container.innerHTML = html;
+}
+
+function renderDosage(product, experience) {
+  let guidance = '';
+  if (product.category === 'edible') {
+    if (experience === 'first') guidance = 'Start with HALF the recommended dose (2.5-5mg THC). Wait a full 90 minutes before considering more. Edibles affect everyone differently.';
+    else if (experience === 'occasional') guidance = 'Start with 5mg THC. Wait 60-90 minutes. Do not exceed 10mg in your first session.';
+    else if (experience === 'regular') guidance = 'Standard dose is 10mg. You know your tolerance — adjust accordingly, but respect the 90-minute window.';
+    else guidance = 'You know your body. Standard dose is 10-20mg. Our highest-test edibles go up to 100mg per package.';
+  } else if (product.category === 'tincture') {
+    if (experience === 'first') guidance = 'Start with HALF a dropper (5mg). Hold under tongue for 30 seconds. Effects begin in 15-30 minutes.';
+    else guidance = 'Standard dose is one full dropper (10mg). Hold under tongue for 30 seconds. Faster onset than edibles, more precise than smoking.';
+  } else if (product.category === 'smoke' || product.category === 'flower' || product.category === 'preroll') {
+    if (experience === 'first') guidance = 'Take ONE small puff. Wait 10 minutes. The effects are immediate — you will know quickly if you need more. Do not chain-smoke.';
+    else if (experience === 'occasional') guidance = 'One to two puffs to assess potency. Wait 10 minutes between sessions.';
+    else guidance = 'Smoke to your comfort level. This is a potent strain — respect the THC percentage.';
+  } else if (product.category === 'vape') {
+    if (experience === 'first') guidance = 'Take ONE 2-second draw. Wait 10 minutes. Vape cartridges are concentrated — a little goes a long way for new users.';
+    else guidance = 'Standard draw is 2-3 seconds. Wait 5-10 minutes between draws. Live resin is potent — respect the concentration.';
+  } else if (product.category === 'topical') {
+    guidance = 'Apply a thin layer to the affected area. Reapply every 4-6 hours as needed. No psychoactive effects — you cannot overdose on topicals.';
+  }
+  const label = experience === 'first' ? 'First-Time User' : experience === 'occasional' ? 'Occasional User' : experience === 'regular' ? 'Regular User' : 'Experienced User';
+  return '<div class="dosage-box"><h5>Dosage Guidance (' + label + ')</h5><p>' + guidance + '</p></div>';
+}
+
+function resetAll() {
+  Object.keys(selections).forEach(k => selections[k] = null);
+  currentStep = 1;
+  for (let i = 1; i <= 6; i++) {
+    const dot = document.querySelector('.step-dot[data-step="' + i + '"]');
+    dot.classList.remove('active', 'completed');
+    if (i === 1) dot.classList.add('active');
+  }
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('step' + i).classList.add('hidden');
+    document.getElementById('step' + i).classList.remove('fade-in');
+    const btns = document.getElementById('step' + i).querySelectorAll('.option-btn');
+    btns.forEach(b => b.classList.remove('selected'));
+    document.getElementById('btn' + i).disabled = true;
+  }
+  document.getElementById('step6').classList.add('hidden');
+  document.getElementById('step1').classList.remove('hidden');
+  document.getElementById('step1').classList.add('fade-in');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forest Operations Toolkit — 10-Minute Quick Start</title>
+<style>
+  :root {
+    --forest-green: #1a472a;
+    --forest-light: #2d6a3f;
+    --forest-accent: #4a9b5e;
+    --earth-brown: #5c4033;
+    --warm-cream: #faf8f3;
+    --soft-gold: #c9a227;
+    --charcoal: #1e1e1e;
+    --danger: #c0392b;
+    --success: #27ae60;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--warm-cream);
+    color: var(--charcoal);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .container { max-width: 800px; margin: 0 auto; padding: 32px 24px; }
+  header {
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+    padding: 40px 24px;
+    text-align: center;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 8px 32px rgba(26,71,42,0.25);
+    margin-bottom: 32px;
+  }
+  header h1 { font-size: 1.8rem; font-weight: 700; }
+  header p { font-size: 1rem; opacity: 0.9; margin-top: 8px; }
+  .timer-box {
+    background: linear-gradient(135deg, #fff8e1 0%, white 100%);
+    border: 2px solid var(--soft-gold);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .timer-box h2 { color: var(--earth-brown); font-size: 1.3rem; margin-bottom: 8px; }
+  .timer-box p { color: #555; font-size: 0.95rem; }
+  .step {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid #eee;
+    border-left: 5px solid var(--forest-accent);
+  }
+  .step-number {
+    display: inline-block;
+    background: var(--forest-green);
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+  .step h3 {
+    display: inline;
+    color: var(--forest-green);
+    font-size: 1.15rem;
+    vertical-align: middle;
+  }
+  .step p, .step ol, .step ul {
+    margin-top: 14px;
+    color: #444;
+    font-size: 0.95rem;
+  }
+  .step ol, .step ul { padding-left: 24px; }
+  .step li { margin-bottom: 8px; }
+  .step .time-tag {
+    display: inline-block;
+    background: #e8f5e9;
+    color: var(--forest-green);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 8px;
+    text-transform: uppercase;
+  }
+  .warning-box {
+    background: #ffebee;
+    border-left: 4px solid var(--danger);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+  .warning-box p { color: var(--danger); font-size: 0.9rem; font-weight: 500; margin: 0; }
+  .success-box {
+    background: #e8f5e9;
+    border-left: 4px solid var(--success);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+  .success-box p { color: var(--forest-green); font-size: 0.9rem; font-weight: 500; margin: 0; }
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-light) 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(26,71,42,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-secondary {
+    background: white;
+    color: var(--forest-green);
+    border: 2px solid var(--forest-green);
+  }
+  .btn-secondary:hover { background: #f6fdf8; }
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: #888;
+    font-size: 0.85rem;
+  }
+  @media print {
+    header { background: var(--forest-green) !important; -webkit-print-color-adjust: exact; }
+    .btn-row { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>The Forest Operations Toolkit</h1>
+  <p>10-Minute Quick Start for Learning &amp; Development Managers</p>
+</header>
+
+<div class="timer-box">
+  <h2>&#9200; Total Setup Time: 10 Minutes</h2>
+  <p>No programmers. No IT tickets. No app stores. No internet required after download.</p>
+</div>
+
+<div class="step">
+  <span class="step-number">1</span>
+  <h3>Locate the Tools <span class="time-tag">1 minute</span></h3>
+  <p>Open the folder named <strong>Zero-Three-TOOLS-READY-TO-DEPLOY</strong>. Inside you will find two files:</p>
+  <ul>
+    <li><strong>Zero-One-Medical-Patient-Concierge.html</strong></li>
+    <li><strong>Zero-Two-SOP-Training-Engine.html</strong></li>
+  </ul>
+  <div class="success-box">
+    <p>&#9989; These are the only two files you need to deploy to stores today.</p>
+  </div>
+</div>
+
+<div class="step">
+  <span class="step-number">2</span>
+  <h3>Test on Your Computer <span class="time-tag">2 minutes</span></h3>
+  <p>Double-click <strong>Zero-One-Medical-Patient-Concierge.html</strong>. It will open in your web browser.</p>
+  <p>Click through the six steps. Select any options. Verify that a recommendation appears at the end with product name, staff talking points, and dosage guidance.</p>
+  <p>Close that tab. Double-click <strong>Zero-Two-SOP-Training-Engine.html</strong>. Click any scenario button. Verify that four sections appear: SOP, Compliance Check, Training Script, and Quiz.</p>
+  <div class="warning-box">
+    <p>&#9888; If a file opens as text instead of a web page, right-click the file, select "Open With," and choose Chrome, Edge, Safari, or Firefox.</p>
+  </div>
+</div>
+
+<div class="step">
+  <span class="step-number">3</span>
+  <h3>Copy to Store Tablets <span class="time-tag">3 minutes</span></h3>
+  <p>Choose one method:</p>
+  <ol>
+    <li><strong>Email:</strong> Attach both HTML files to an email. Send to all store managers. Store managers download the files to their tablets.</li>
+    <li><strong>USB Drive:</strong> Copy both HTML files to a USB drive. Hand the drive to each store manager. Store manager copies files from USB to tablet.</li>
+    <li><strong>Shared Drive:</strong> Upload both HTML files to your company shared drive. Share the link with all store managers. They download to their tablets.</li>
+  </ol>
+  <div class="success-box">
+    <p>&#9989; The files work completely offline. No WiFi needed after the initial download.</p>
+  </div>
+</div>
+
+<div class="step">
+  <span class="step-number">4</span>
+  <h3>Train Store Managers <span class="time-tag">3 minutes</span></h3>
+  <p>Send this one-paragraph instruction to every store manager:</p>
+  <blockquote style="background:#f8f9fa; padding:16px 20px; border-radius:8px; margin-top:12px; font-style:italic; color:#555;">
+    "Two new training tools are now on your store tablet. Open the Medical Patient Concierge when helping any medical patient or new customer. It will tell you exactly what to recommend and what to say. Open the SOP Training Engine before each shift huddle. Pick one scenario, read the training script aloud, and ask the three quiz questions. Both tools work without internet. If you have questions, contact [YOUR NAME]."
+  </blockquote>
+</div>
+
+<div class="step">
+  <span class="step-number">5</span>
+  <h3>Verify Deployment <span class="time-tag">1 minute</span></h3>
+  <p>Call or text one store manager. Ask them to open the Medical Patient Concierge on their tablet and walk through one scenario with you over the phone. If it works, deployment is successful at that store. Repeat for each store.</p>
+  <div class="success-box">
+    <p>&#9989; You are now in production. Staff are using the tools. Customers are receiving better service.</p>
+  </div>
+</div>
+
+<div class="step" style="border-left-color: var(--soft-gold);">
+  <span class="step-number" style="background: var(--soft-gold); color: var(--earth-brown);">+</span>
+  <h3>What to Do Next (After Today)</h3>
+  <p>These are not urgent. Do them when you have time:</p>
+  <ul>
+    <li>Open <strong>Zero-Two-EDITING-GUIDES/How-to-Edit-the-Medical-Concierge.txt</strong> to add your store's actual product names and prices.</li>
+    <li>Open <strong>Zero-Two-EDITING-GUIDES/How-to-Edit-the-SOP-Engine.txt</strong> to add store-specific scenarios.</li>
+    <li>Open <strong>Zero-Four-PRINTABLES</strong> to print physical copies of the Medical Patient Playbook and 30-60-90 Day Plan.</li>
+    <li>Open <strong>Zero-Five-TRAINING-MODULES</strong> for pre-built weekly training schedules.</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p>The Forest Operations Toolkit &middot; Standard Wellness Holdings, LLC</p>
+  <p style="margin-top:8px; font-size:0.8rem;">Built for immediate deployment. No IT required.</p>
+</div>
+
+</body>
+</html>

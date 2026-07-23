@@ -1,0 +1,149 @@
+HOW TO EDIT THE MEDICAL PATIENT CONCIERGE
+For Learning and Development Managers with No Programming Experience
+
+=== WHAT YOU CAN EDIT ===
+
+You can change:
+1. Product names
+2. Product brands
+3. THC and CBD percentages
+4. Terpene lists
+5. Effect descriptions
+6. Staff talking point scripts
+7. Which conditions each product treats
+8. Which consumption methods each product supports
+9. Which price tier each product belongs to
+
+You cannot break the tool. If you make a mistake, the tool will still open. It may show strange text, but it will not crash. You can always undo your changes and try again.
+
+=== WHAT YOU NEED ===
+
+You need a text editor. On Windows, use Notepad. On Mac, use TextEdit in plain text mode. Do not use Microsoft Word. Word adds hidden formatting that breaks the tool.
+
+=== STEP-BY-STEP INSTRUCTIONS ===
+
+Step One. Locate the file.
+Open the folder named Zero-Three-TOOLS-READY-TO-DEPLOY.
+Find the file named Zero-One-Medical-Patient-Concierge.html.
+Right-click the file.
+Select Open With.
+Choose Notepad on Windows or TextEdit on Mac.
+
+Step Two. Find the product database.
+The file is long. Do not read all of it.
+Press Control and F at the same time. On a Mac, press Command and F.
+A search box will appear.
+Type the exact text: standard-gg4
+Press Enter.
+The editor will jump to the first product in the database.
+
+Step Three. Understand the product format.
+Each product looks like this example. I will show you one complete product and label every part.
+
+"standard-gg4": {
+    name: "GG4 (Gorilla Glue #4)",
+    brand: "The Standard",
+    category: "flower",
+    tier: "premium",
+    thc: "28-32%",
+    cbd: "<1%",
+    terpenes: ["Caryophyllene", "Myrcene", "Limonene"],
+    effects: ["Relaxation", "Pain Relief", "Euphoria"],
+    bestFor: ["pain", "anxiety", "sleep"],
+    methods: ["smoke", "vape"],
+    description: "Award-winning hybrid. Heavy-hitting euphoria followed by deep body relaxation.",
+    staffScript: "This is our top-seller from The Standard — GG4. Start with one hit and wait 10 minutes."
+  }
+
+Here is what each line means:
+
+Line 1: "standard-gg4" is the internal code name for this product. Do not change this unless you are adding a completely new product. If you are only editing an existing product, leave this line alone.
+
+Line 2: name is what the customer sees. Change the text inside the quotation marks. For example, change "GG4 (Gorilla Glue #4)" to "Your New Strain Name".
+
+Line 3: brand is the brand name. Change it to match your actual brand. For example, "The Standard" or "Galenas" or "Your House Brand".
+
+Line 4: category is the product type. Valid options are: flower, preroll, edible, tincture, topical, vape. Do not invent new categories. Use only these six words.
+
+Line 5: tier is the price level. Valid options are: value, mid, premium. Do not invent new tiers.
+
+Line 6: thc is the THC percentage. Change the numbers inside the quotation marks. For example, "28-32%" or "20%" or "100mg".
+
+Line 7: cbd is the CBD percentage or amount. Change the text inside the quotation marks. For example, "<1%" or "100mg" or "0mg".
+
+Line 8: terpenes is a list of terpene names. Each name goes inside quotation marks and is separated by a comma. You can have as many or as few as you want. For example: ["Myrcene", "Limonene"] or ["Caryophyllene", "Myrcene", "Limonene", "Linalool"].
+
+Line 9: effects is a list of what the product does. Each effect goes inside quotation marks and is separated by a comma. For example: ["Relaxation", "Pain Relief"] or ["Energy", "Focus", "Creativity"].
+
+Line 10: bestFor is a list of conditions this product treats. Valid condition codes are: sleep, pain, anxiety, appetite, energy, mood. Do not invent new condition codes. Use only these six words. You can list as many as apply. For example: ["pain", "sleep"] or ["anxiety", "mood", "sleep"].
+
+Line 11: methods is a list of how the product is consumed. Valid method codes are: smoke, vape, edible, tincture, topical. Do not invent new method codes.
+
+Line 12: description is the product description that appears on the recommendation screen. Change the text inside the quotation marks. Keep it under two sentences.
+
+Line 13: staffScript is the exact words your staff should say to the customer. Change the text inside the quotation marks. Write it as if you are speaking to a customer. This is the most important line to edit.
+
+Step Four. Edit one product.
+Change the name, brand, thc, cbd, terpenes, effects, bestFor, methods, description, and staffScript for one product.
+
+Important rule: Every line must end with a comma EXCEPT the last line before the closing curly brace. The last line before the closing brace has NO comma.
+
+Correct example:
+    name: "GG4",
+    brand: "The Standard",
+    staffScript: "Hello."
+  }
+
+Incorrect example:
+    name: "GG4",
+    brand: "The Standard",
+    staffScript: "Hello.",
+  }
+
+The incorrect example has a comma after staffScript. That comma will break the tool. Remove it.
+
+Step Five. Save the file.
+Press Control and S at the same time. On a Mac, press Command and S.
+Close the text editor.
+Double-click the file to open it in your browser.
+Test the tool. Walk through the six steps. Verify that your edited product appears in the recommendations.
+
+Step Six. Add a new product.
+To add a new product, copy an entire product block from the opening curly brace to the closing curly brace.
+Paste it after the last product block.
+Add a comma after the closing curly brace of the previous last product.
+Change the internal code name on the first line. It must be unique. For example: "yourbrand-newstrain".
+Change all the product details.
+Save. Test.
+
+Step Seven. Remove a product.
+Delete the entire product block from the opening curly brace to the closing curly brace.
+If the product you deleted was the last one in the list, remove the comma after the closing curly brace of the new last product.
+Save. Test.
+
+=== COMMON MISTAKES AND HOW TO FIX THEM ===
+
+Mistake One. I added a comma after the last line of a product.
+Fix. Open the file. Find the product. Remove the comma after the last line before the closing curly brace.
+
+Mistake Two. I used a word that is not in the valid list for category, tier, bestFor, or methods.
+Fix. Open the file. Find the invalid word. Replace it with one of the valid words listed in Step Three.
+
+Mistake Three. I deleted a quotation mark.
+Fix. Open the file. Find the line. Add the missing quotation mark. Every piece of text must have a quotation mark at the beginning and a quotation mark at the end.
+
+Mistake Four. I deleted a curly brace or square bracket.
+Fix. Open the file. Find the missing brace or bracket. Add it back. Every opening brace must have a matching closing brace.
+
+Mistake Five. The tool opens but shows no recommendations.
+Fix. You probably deleted a comma between two products. Every product block except the last one must have a comma after its closing curly brace. Add the comma.
+
+=== BACKUP BEFORE EDITING ===
+
+Before you edit the file, make a copy.
+Right-click the file.
+Select Copy.
+Right-click in an empty space.
+Select Paste.
+A copy of the file will appear with a name like "Zero-One-Medical-Patient-Concierge-Copy.html".
+If you break the original file, delete it and rename the copy to the original name.

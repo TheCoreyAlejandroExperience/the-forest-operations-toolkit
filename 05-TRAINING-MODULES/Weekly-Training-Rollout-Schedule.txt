@@ -1,0 +1,159 @@
+WEEKLY TRAINING MODULE ROLLOUT SCHEDULE
+For Store Managers and Lead Associates
+
+=== HOW TO USE THIS SCHEDULE ===
+
+This schedule assumes you are using the SOP and Training Engine for daily huddles and the Medical Patient Concierge for customer consultations. Each week focuses on one theme. Every day has a specific ten-minute activity.
+
+Print this document. Give one copy to every store manager. Post one copy in the back office of every store.
+
+=== WEEK ONE: COMPLIANCE FOUNDATIONS ===
+
+Theme: Every staff member must understand the rules that protect our license.
+
+Monday: ID Verification
+- Before opening: Store Manager opens the SOP Engine. Clicks "ID Verification Problem."
+- Reads the Training Script aloud to all staff present.
+- Conducts the role-play: one staff member plays a customer with an expired ID. Another staff member plays the budtender.
+- Asks the three quiz questions. Staff raise hands to answer.
+- Time: 10 minutes.
+
+Tuesday: Medical vs. Adult-Use
+- Before opening: Store Manager opens the SOP Engine. Clicks "Medical vs. Adult-Use Confusion."
+- Reads the Training Script aloud.
+- Role-play: a customer wants to buy both medical and adult-use in one transaction.
+- Quiz questions.
+- Time: 10 minutes.
+
+Wednesday: Intoxicated Customer
+- Before opening: Store Manager opens the SOP Engine. Clicks "Visibly Intoxicated Customer."
+- Reads the Training Script aloud.
+- Role-play: a customer who is slurring their words wants to buy.
+- Quiz questions.
+- Time: 10 minutes.
+
+Thursday: Bulk Purchase and Discounts
+- Before opening: Store Manager opens the SOP Engine. Clicks "Bulk Purchase / Discount Request."
+- Reads the Training Script aloud.
+- Role-play: a regular customer asks for a bulk discount.
+- Quiz questions.
+- Time: 10 minutes.
+
+Friday: Review and Assessment
+- Before opening: Store Manager asks staff to recite the four-point ID check from memory.
+- Store Manager asks: "What is the adult-use purchase limit per transaction?"
+- Store Manager asks: "When do you call 911?"
+- Store Manager asks: "What three groups get the 25% discount?"
+- Staff who answer all four correctly receive a small recognition. A shout-out in the group chat. A preferred parking spot for the week. A free coffee. Something visible.
+- Time: 10 minutes.
+
+=== WEEK TWO: CUSTOMER EXPERIENCE ===
+
+Theme: Every customer interaction is a retention opportunity.
+
+Monday: Overcharge Disputes
+- SOP Engine: "Customer Disputes Overcharge."
+- Focus: The $5 loyalty credit is cheaper than a lost customer.
+
+Tuesday: Out-of-Stock Items
+- SOP Engine: "Customer Wants Out-of-Stock Item."
+- Focus: The 10% discount on alternatives and the restock alert list.
+
+Wednesday: Product Returns
+- SOP Engine: "Product Return Request."
+- Focus: Empathy without violating Ohio DCC rules.
+
+Thursday: Hostile Customers
+- SOP Engine: "Hostile or Rude Customer."
+- Focus: Safety first. De-escalation second.
+
+Friday: Review and Mystery Shopper
+- Store Manager or District Manager acts as a mystery shopper.
+- Scenario: a medical patient wants a specific strain that is out of stock.
+- Staff member is scored on: empathy, product knowledge, alternative recommendation, and restock alert capture.
+- Score is recorded. Top scorer gets recognition.
+
+=== WEEK THREE: PRODUCT KNOWLEDGE ===
+
+Theme: Staff must speak the language of cannabinoids and terpenes.
+
+Monday: Terpene Tuesday Introduction
+- Store Manager opens the Medical Patient Concierge.
+- Walks through one complete consultation as a group.
+- Focus: how the tool matches terpenes to customer concerns.
+
+Tuesday: Myrcene Day
+- Store Manager teaches: Myrcene is sedative, anti-inflammatory, and appetite-stimulating.
+- Staff identify which products in the store are high in myrcene.
+- Quiz: "A customer wants help sleeping. Which terpene do you recommend?"
+
+Wednesday: Limonene Day
+- Store Manager teaches: Limonene is mood-elevating, anti-anxiety, and digestive.
+- Staff identify high-limonene products.
+- Quiz: "A customer is anxious but needs to work. Which terpene do you recommend?"
+
+Thursday: Caryophyllene Day
+- Store Manager teaches: Caryophyllene is anti-inflammatory, pain-relieving, and stress-reducing.
+- Staff identify high-caryophyllene products.
+- Quiz: "A customer has chronic joint pain. Which terpene do you recommend?"
+
+Friday: Terpene Quiz Competition
+- Store Manager names a condition. Staff race to name the right terpene.
+- Winner gets recognition.
+- All staff must score 80% or higher on the weekly terpene quiz by end of shift.
+
+=== WEEK FOUR: OPERATIONAL EFFICIENCY ===
+
+Theme: Speed and accuracy are not enemies. They are partners.
+
+Monday: Drive-Thru Efficiency
+- SOP Engine: "Drive-Thru Line Backup."
+- Focus: The 5-car and 10-car thresholds. The manual order process during POS outages.
+
+Tuesday: Theft and Shrinkage
+- SOP Engine: "Theft or Shrinkage Suspected."
+- Focus: Observe and document. Never confront directly.
+
+Wednesday: Inventory Management
+- Store Manager reviews the top 20 SKUs by velocity.
+- Staff learn the reorder triggers and safety stock levels.
+- Focus: preventing stockouts before they happen.
+
+Thursday: Daily Log Discipline
+- Store Manager reviews the past week's Daily Logs.
+- Staff learn what to document, when to document, and why it matters.
+- Focus: the Daily Log is our legal protection and our operational intelligence.
+
+Friday: Full Scenario Review
+- Store Manager picks the three scenarios from the month with the most real-world incidents.
+- Staff review all three SOPs, compliance checks, and training scripts.
+- End-of-month assessment: every staff member must sign off on all SOPs they have been trained on.
+
+=== ONGOING: MEDICAL PATIENT ADVOCACY ===
+
+Every Monday:
+- Store Manager counts the number of medical patients who visited in the past week.
+- If the number is declining, the Store Manager reviews the Medical Patient Playbook.
+- Staff are reminded: medical patients are the foundation of this business. Treat them accordingly.
+
+Every Wednesday:
+- One staff member is designated as the "Medical Concierge of the Week."
+- This staff member uses the Medical Patient Concierge tool for every medical patient who walks in.
+- They are scored on consultation quality, not transaction speed.
+
+Every Friday:
+- Store Manager asks: "What did we learn from a medical patient this week?"
+- Staff share one insight: a new concern, a product request, a feedback comment.
+- Insights are recorded in the Daily Log and shared with the L&D Manager monthly.
+
+=== MONTHLY REPORTING ===
+
+On the last day of every month, every Store Manager submits a one-page report to the L&D Manager:
+
+1. Number of training huddles conducted this month.
+2. Average staff attendance at huddles.
+3. Top three scenarios that generated the most real-world incidents.
+4. Number of medical patients served this month vs. last month.
+5. One suggestion for improving the training materials.
+
+The L&D Manager compiles these reports into a monthly summary for the District Manager and VP of Retail.
